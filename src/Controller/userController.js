@@ -1,5 +1,5 @@
 export const join = (req, res) => {
-    return res.send("join");
+    return res.render("home");
 }
 export const edit = (req, res) => {
     return res.send("edit user");

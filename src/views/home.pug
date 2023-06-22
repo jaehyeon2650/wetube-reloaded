@@ -1,0 +1,11 @@
+extends base.pug
+include mixins/video.pug
+
+block content 
+    h1 welcom to my video world!
+    each video in videos 
+        +video(video)
+    else 
+        li there's no video!
+block main 
+    h1 Home
