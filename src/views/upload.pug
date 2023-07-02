@@ -2,7 +2,11 @@ extends base.pug
 
 block content
     h1 #{title}
+    if message
+        span=message
     form(method="post")
-        input(name="title",placeholder="write your new video",type="text")
+        input(name="title",placeholder="write your new video",type="text",required=true,maxlength="80")
+        input(name="description",placeholder="desrciption",type="text",required=true,minlength="20")
+        input(name="hashtags",placeholder="hastags, seperate with comma",type="text",required=true)
         input(value="Submit",type="submit")
         

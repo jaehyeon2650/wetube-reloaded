@@ -2,6 +2,8 @@
 // const express = require("express");
 // const app = express();
 //최신 문법
+// import "./db";
+// import "./models/video"
 import express from "express";
 import video from "./Router/videoRouter";
 import user from "./Router/userRouter";
@@ -19,8 +21,10 @@ app.use("/", grobal);
 app.use("/user", user);
 app.use("/video", video);
 
-const handleListening = () => console.log("Server listening on port 4000");
+export default app;
+
+// const handleListening = () => console.log("Server listening on port 4000");
 // function handleListening() {
 //     console.log("sever begining");
 // }
-app.listen(4000, handleListening);
+// app.listen(4000, handleListening);

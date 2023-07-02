@@ -3,11 +3,11 @@ import { see, getedit, postedit, remove, upload, getupload, postupload } from ".
 
 const videoRouter = express.Router();
 
-videoRouter.get("/:id(\\d+)", see);
+videoRouter.get("/:id([0-9a-f]{24})", see);
 videoRouter.get("/upload", upload);
-videoRouter.get("/:id(\\d+)/edit", getedit);
-videoRouter.post("/:id(\\d+)/edit", postedit);
-videoRouter.get("/:id(\\d+)/delete", remove);
+videoRouter.get("/:id([0-9a-f]{24})/edit", getedit);
+videoRouter.post("/:id([0-9a-f]{24})/edit", postedit);
+videoRouter.get("/:id([0-9a-f]{24})/delete", remove);
 videoRouter.get("/uploadvideo", getupload);
 videoRouter.post("/uploadvideo", postupload);
 
