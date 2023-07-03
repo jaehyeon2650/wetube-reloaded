@@ -7,7 +7,7 @@
 import express from "express";
 import video from "./Router/videoRouter";
 import user from "./Router/userRouter";
-import grobal from "./Router/grobalRouter";
+import route from "./Router/routeRouter";
 import morgan from "morgan";
 
 console.log(process.cwd());
@@ -17,7 +17,7 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
-app.use("/", grobal);
+app.use("/", route);
 app.use("/user", user);
 app.use("/video", video);
 
