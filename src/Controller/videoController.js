@@ -1,7 +1,7 @@
 import Video from "../models/video";
 
 export const home = async (req, res) => {
-    const videos = await Video.find({});
+    const videos = await Video.find({}).sort({ createdAt: "desc" });
     console.log(videos);
     return res.render("home", { title: "Home", videos });
 }
@@ -40,11 +40,22 @@ export const postedit = async (req, res) => {
     // await video.save();
     return res.redirect(`/video/${id}`);
 }
-export const remove = (req, res) => {
-    return res.send(`delete video #${req.params.id}`);
+export const remove = async (req, res) => {
+    const { id } = req.params;
+    await Video.findByIdAndDelete(id);
+    return res.redirect("/");
 }
-export const search = (req, res) => {
-    return res.send("seach video");
+export const search = async (req, res) => {
+    const { keyward } = req.query;
+    let videos = [];
+    if (keyward) {
+        videos = await Video.find({
+            title: {
+                $regex: new RegExp(keyward, "i"),
+            }
+        })
+    }
+    return res.render("search", { title: "Search", videos: videos });
 }
 export const upload = (req, res) => {
     return res.send("upload video");

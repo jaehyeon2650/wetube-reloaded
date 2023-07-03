@@ -5,5 +5,13 @@ block content
 block main
     div
         p=video.description
-        small=video.createdAt 
-    a(href=video.id+"/edit") Edit video
+        small=video.createdAt
+    //- nav
+    //-     ul 
+    //-         li
+    //-             a(href=video.id+"/edit") Edit Video
+    //-         li 
+    //-             a(href=video.id+"/delete") Delete Video
+    a(href=video.id+"/edit") Edit Video
+    br
+    a(href=video.id+"/delete") Delete Video
