@@ -2,7 +2,6 @@ import Video from "../models/video";
 
 export const home = async (req, res) => {
     const videos = await Video.find({}).sort({ createdAt: "desc" });
-    console.log(videos);
     return res.render("home", { title: "Home", videos });
 }
 export const see = async (req, res) => {
@@ -17,7 +16,7 @@ export const getedit = async (req, res) => {
     const id = req.params.id;
     const video = await Video.findById(id);
     if (!video) {
-        return res.render("404", { title: "video not found" });
+        return res.status(404).render("404", { title: "video not found" });
     }
     res.render("edit", { title: `Edit: ${video.title}`, video: video });
 }
@@ -26,7 +25,7 @@ export const postedit = async (req, res) => {
     // const video = await Video.findById(id);
     const video = await Video.exists({ _id: id });
     if (!video) {
-        return res.render("404", { title: "video not found" })
+        return res.status(404).render("404", { title: "video not found" })
     }
     const { title, description, hashtags } = req.body;
     await Video.findByIdAndUpdate(id, {
