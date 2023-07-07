@@ -24,9 +24,6 @@ export const postJoin = async (req, res) => {
 export const edit = (req, res) => {
     return res.send("edit user");
 }
-export const remove = (req, res) => {
-    return res.send("delete user");
-}
 export const getLogin = (req, res) => {
     return res.render("login", { title: "Login" });
 }
@@ -44,9 +41,75 @@ export const postLogin = async (req, res) => {
     req.session.user = user;
     return res.redirect("/");
 }
-export const see = (req, res) => {
-    return res.send("see");
+export const getGithubStart = (req, res) => {
+    const url = "https://github.com/login/oauth/authorize"
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        allow_signup: false,
+        scope: "read:user user:email",
+    }
+    const param = new URLSearchParams(config).toString();
+    const finalurl = `${url}?${param}`;
+    return res.redirect(finalurl);
+}
+export const postGithubFinish = async (req, res) => {
+    const baseurl = "https://github.com/login/oauth/access_token"
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        client_secret: process.env.GH_SECRET,
+        code: req.query.code,
+    }
+    const param = new URLSearchParams(config).toString();
+    const finalurl = `${baseurl}?${param}`;
+    const data = await (await fetch(finalurl, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+        }
+    })).json();
+    if ("access_token" in data) {
+        const access_token = data.access_token;
+        const apiurl = "https://api.github.com";
+        const userData = await (await fetch(`${apiurl}/user`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            }
+        })).json();
+        const emailData = await (await fetch(`${apiurl}/user/emails`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            }
+        })).json();
+        const userEmail = emailData.find(
+            (email) => email.primary === true && email.verified === true
+        );
+        if (!userEmail) {
+            return res.redirect("/login");
+        }
+        let existUser = await User.findOne({ email: userEmail.email });
+        if (!existUser) {
+            existUser = await User.create({
+                email: userEmail.email,
+                username: userData.login,
+                password: "",
+                githublogin: true,
+                name: userData.name,
+                location: userData.location,
+                avatar_url: userData.avatar_url,
+            })
+        }
+        else {
+            req.session.login = true;
+            req.session.user = existUser;
+            return res.redirect("/");
+        }
+    }
+    else {
+        return res.redirect("/login");
+    }
+
 }
 export const logout = (req, res) => {
-    return res.send("logout");
+    req.session.destroy();
+    return res.redirect("/");
 }

@@ -10,6 +10,7 @@ import user from "./Router/userRouter";
 import route from "./Router/routeRouter";
 import session from "express-session";
 import morgan from "morgan";
+import MongoStore from "connect-mongo";
 import { localsMiddleware } from "./middleware";
 
 console.log(process.cwd());
@@ -20,9 +21,10 @@ app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: "Hello!",
-    resave: true,
-    saveUninitialized: true,
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
 }));
 //모든 sessions 체크
 // app.use((req, res, next) => {
@@ -33,8 +35,8 @@ app.use(session({
 // });
 app.use(localsMiddleware);
 app.use("/", route);
-app.use("/user", user);
-app.use("/video", video);
+app.use("/users", user);
+app.use("/videos", video);
 
 export default app;
 
