@@ -1,4 +1,4 @@
-extends base.pug
+extends ../base.pug
 
 block content
     if errorMessage 
@@ -9,3 +9,6 @@ block content
         input(name="username",type="text",required,value=user.username)
         input(name="location",type="text",required,value=user.location)
         input(value="Edit Profile",type="submit")
+        if !user.githublogin
+            hr
+            a(href="/users/change-password") Change Password &rarr;

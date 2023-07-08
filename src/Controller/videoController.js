@@ -10,7 +10,7 @@ export const see = async (req, res) => {
     if (!video) {
         return res.render("404", { title: "video not found!" })
     }
-    res.render("watch", { title: video.title, video: video });
+    res.render("videofile/watch", { title: video.title, video: video });
 }
 export const getedit = async (req, res) => {
     const id = req.params.id;
@@ -18,7 +18,7 @@ export const getedit = async (req, res) => {
     if (!video) {
         return res.status(404).render("404", { title: "video not found" });
     }
-    res.render("edit", { title: `Edit: ${video.title}`, video: video });
+    res.render("videofile/edit", { title: `Edit: ${video.title}`, video: video });
 }
 export const postedit = async (req, res) => {
     const id = req.params.id;
@@ -54,13 +54,13 @@ export const search = async (req, res) => {
             }
         })
     }
-    return res.render("search", { title: "Search", videos: videos });
+    return res.render("videofile/search", { title: "Search", videos: videos });
 }
 export const upload = (req, res) => {
     return res.send("upload video");
 }
 export const getupload = (req, res) => {
-    return res.render("upload", { title: "upload" });
+    return res.render("videofile/upload", { title: "upload" });
 }
 export const postupload = async (req, res) => {
     const { title, description, hashtags } = req.body;
@@ -74,7 +74,7 @@ export const postupload = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return res.render("upload", { title: "Upload", message: error._message })
+        return res.render("videofile/upload", { title: "Upload", message: error._message })
     }
 
 }

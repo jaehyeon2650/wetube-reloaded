@@ -1,16 +1,16 @@
 import User from "../models/user";
 import bcrypt from "bcrypt";
 export const getJoin = (req, res) => {
-    return res.render("join", { title: "Join" });
+    return res.render("userfile/join", { title: "Join" });
 }
 export const postJoin = async (req, res) => {
     const { email, username, password, checkpassword, name, location } = req.body;
     const user = await User.exists({ $or: [{ username }, { email }] });
     if (password !== checkpassword) {
-        return res.status(400).render("join", { title: "Join", errorMessage: "Please, check password" });
+        return res.status(400).render("userfile/join", { title: "Join", errorMessage: "Please, check password" });
     }
     if (user) {
-        return res.status(400).render("join", { title: "Join", errorMessage: "Already exist username or email" })
+        return res.status(400).render("userfile/join", { title: "Join", errorMessage: "Already exist username or email" })
     }
     await User.create({
         email,
@@ -22,7 +22,7 @@ export const postJoin = async (req, res) => {
     return res.redirect("/login");
 }
 export const getEdit = (req, res) => {
-    return res.render("edit-profile", { title: "Edit Profile" });
+    return res.render("userfile/edit-profile", { title: "Edit Profile" });
 }
 export const postEdit = async (req, res) => {
     const {
@@ -34,13 +34,13 @@ export const postEdit = async (req, res) => {
     if (email !== req.session.user.email) {
         const existuser = await User.exists({ email });
         if (existuser) {
-            return res.render("edit-profile", { title: "Edit-Profile", errorMessage: "Email already exist" })
+            return res.render("userfile/edit-profile", { title: "Edit-Profile", errorMessage: "Email already exist" })
         }
     }
     else if (username !== req.session.user.username) {
         const existuser = await User.exists({ username });
         if (existuser) {
-            return res.render("edit-profile", { title: "Edit-Profile", errorMessage: "Username already exist" })
+            return res.render("userfile/edit-profile", { title: "Edit-Profile", errorMessage: "Username already exist" })
         }
     }
     const newUser = await User.findByIdAndUpdate(_id, {
@@ -53,17 +53,17 @@ export const postEdit = async (req, res) => {
     return res.redirect("/users/edit");
 }
 export const getLogin = (req, res) => {
-    return res.render("login", { title: "Login" });
+    return res.render("userfile/login", { title: "Login" });
 }
 export const postLogin = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username, githublogin: false });
     if (!user) {
-        return res.status(400).render("login", { title: "Login", errorMessage: "Account with this username does not exist" });
+        return res.status(400).render("userfile/login", { title: "Login", errorMessage: "Account with this username does not exist" });
     }
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) {
-        return res.status(400).render("login", { title: "Login", errorMessage: "Wrong password" });
+        return res.status(400).render("userfile/login", { title: "Login", errorMessage: "Wrong password" });
     }
     req.session.login = true;
     req.session.user = user;
@@ -140,4 +140,41 @@ export const postGithubFinish = async (req, res) => {
 export const logout = (req, res) => {
     req.session.destroy();
     return res.redirect("/");
+}
+
+export const getPasswordChange = (req, res) => {
+    if (req.session.user.githublogin === true) {
+        return res.redirect("/");
+    }
+    return res.render("userfile/change-password", { title: "Change Password" });
+}
+export const postPasswordChange = async (req, res) => {
+    const {
+        session: {
+            user: { _id }
+        },
+        body: {
+            old,
+            newp,
+            newp1,
+        }
+    } = req;
+    const user = await User.findById(_id);
+    console.log(user);
+    const ok = bcrypt.compare(old, user.password);
+    if (!ok) {
+        return res.status(400).render("userfile/change-password", { title: "Change Password", errorMessage: "Old Password is Wrong" })
+    }
+    if (old === newp) {
+        return res.status(400).render('userfile/change-password', {
+            title: "Change Password",
+            errorMessage: 'The old password equals new password',
+        });
+    }
+    if (newp !== newp1) {
+        return res.status(400).render("userfile/change-password", { title: "Change Password", errorMessage: "Check New Password" })
+    }
+    user.password = newp;
+    user.save();
+    return res.redirect("/users/logout");
 }
