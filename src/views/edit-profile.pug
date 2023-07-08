@@ -1,0 +1,8 @@
+extends base.pug
+
+block content 
+    form(method="POST")
+        input(name="name",type="text",required,value=user.name)
+        input(name="email",type="email",required, value=user.email)
+        input(name="username",type="text",required,value=user.username)
+        input(name="location",type="text",required,value=user.location)

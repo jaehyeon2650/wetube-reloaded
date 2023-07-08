@@ -21,15 +21,18 @@ export const postJoin = async (req, res) => {
     })
     return res.redirect("/login");
 }
-export const edit = (req, res) => {
-    return res.send("edit user");
+export const getEdit = (req, res) => {
+    return res.render("edit-profile", { title: "Edit Profile" });
+}
+export const postEdit = (req, res) => {
+    return res.redirect("/");
 }
 export const getLogin = (req, res) => {
     return res.render("login", { title: "Login" });
 }
 export const postLogin = async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username, githublogin: false });
     if (!user) {
         return res.status(400).render("login", { title: "Login", errorMessage: "Account with this username does not exist" });
     }
