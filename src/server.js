@@ -34,6 +34,7 @@ app.use(session({
 //     });
 // });
 app.use(localsMiddleware);
+app.use("/uploads", express.static("uploads"));
 app.use("/", route);
 app.use("/users", user);
 app.use("/videos", video);

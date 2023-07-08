@@ -7,5 +7,4 @@ routeRouter.get("/", home);
 routeRouter.route("/join").all(publicOnlyMiddleware).get(getJoin).post(postJoin);
 routeRouter.route("/login").all(publicOnlyMiddleware).get(getLogin).post(postLogin);
 routeRouter.get("/search", search);
-
 export default routeRouter;
