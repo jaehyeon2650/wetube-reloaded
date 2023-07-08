@@ -1,8 +1,11 @@
 extends base.pug
 
-block content 
+block content
+    if errorMessage 
+        p=errorMessage
     form(method="POST")
         input(name="name",type="text",required,value=user.name)
         input(name="email",type="email",required, value=user.email)
         input(name="username",type="text",required,value=user.username)
         input(name="location",type="text",required,value=user.location)
+        input(value="Edit Profile",type="submit")

@@ -8,8 +8,6 @@ html(lang="ko")
             h1=title
             nav
                 ul
-                    li
-                        a(href="/videos/uploadvideo") Upload video
                     li 
                         a(href="/") Home
                     li
@@ -22,6 +20,8 @@ html(lang="ko")
                     else 
                         li
                             a(href="/users/edit") Edit Profile
+                        li
+                            a(href="/videos/uploadvideo") Upload video
                         li
                             a(href="/profile") #{user.name}'s profile
                         li 

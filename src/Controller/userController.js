@@ -24,8 +24,33 @@ export const postJoin = async (req, res) => {
 export const getEdit = (req, res) => {
     return res.render("edit-profile", { title: "Edit Profile" });
 }
-export const postEdit = (req, res) => {
-    return res.redirect("/");
+export const postEdit = async (req, res) => {
+    const {
+        session: {
+            user: { _id },
+        },
+        body: { username, name, email, location },
+    } = req;
+    if (email !== req.session.user.email) {
+        const existuser = await User.exists({ email });
+        if (existuser) {
+            return res.render("edit-profile", { title: "Edit-Profile", errorMessage: "Email already exist" })
+        }
+    }
+    else if (username !== req.session.user.username) {
+        const existuser = await User.exists({ username });
+        if (existuser) {
+            return res.render("edit-profile", { title: "Edit-Profile", errorMessage: "Username already exist" })
+        }
+    }
+    const newUser = await User.findByIdAndUpdate(_id, {
+        name,
+        username,
+        email,
+        location,
+    }, { new: true })
+    req.session.user = newUser;
+    return res.redirect("/users/edit");
 }
 export const getLogin = (req, res) => {
     return res.render("login", { title: "Login" });
