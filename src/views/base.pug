@@ -23,7 +23,7 @@ html(lang="ko")
                         li
                             a(href="/videos/uploadvideo") Upload video
                         li
-                            a(href="/profile") #{user.name}'s profile
+                            a(href=`/users/${user._id}`) #{user.name}'s profile
                         li 
                             a(href="/users/logout") Logout 
         main 

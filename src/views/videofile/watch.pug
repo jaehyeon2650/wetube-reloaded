@@ -3,15 +3,20 @@ extends ../base.pug
 block content 
     h1 #{title}
 block main
+    video(src="/"+video.videoUrl,controls)
     div
         p=video.description
         small=video.createdAt
+        br
+        small Created by 
+            a(href=`/users/${video.owner._id}`) #{video.owner.name}
     //- nav
     //-     ul 
     //-         li
     //-             a(href=video.id+"/edit") Edit Video
     //-         li 
     //-             a(href=video.id+"/delete") Delete Video
-    a(href=video.id+"/edit") Edit Video
-    br
-    a(href=video.id+"/delete") Delete Video
+    if String(video.owner._id)===String(user._id)
+        a(href=video.id+"/edit") Edit Video
+        br
+        a(href=video.id+"/delete") Delete Video
