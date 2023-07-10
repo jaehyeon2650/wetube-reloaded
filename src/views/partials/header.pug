@@ -1,21 +1,26 @@
 header
-    a(herf="/")
+    a(href="/").header__logo
         i.fab.fa-youtube
     nav
         ul
             li
-                a(href="/search") Search
+                a(href="/search")
+                    i.fas.fa-search
                 if !login 
                     li 
                         a(href="/join") Join
                     li 
-                        a(href="/login") Login
+                        a(href="/login").header__btn Login
                 else 
-                    li
-                        a(href="/users/edit") Edit Profile
                     li
                         a(href="/videos/uploadvideo") Upload video
                     li
-                        a(href=`/users/${user._id}`) #{user.name}'s profile
+                        a(href="/users/edit") Edit Profile
                     li 
                         a(href="/users/logout") Logout 
+                    li
+                        a(href=`/users/${user._id}`)
+                            if user.avatar_url===""
+                                span 😊
+                            else
+                                img.header_avatar(src="/"+user.avatar_url)
