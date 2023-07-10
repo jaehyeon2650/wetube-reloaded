@@ -35,6 +35,7 @@ app.use(session({
 // });
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static("assets"));
 app.use("/", route);
 app.use("/users", user);
 app.use("/videos", video);

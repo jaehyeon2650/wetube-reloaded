@@ -1,0 +1,21 @@
+header
+    a(herf="/")
+        i.fab.fa-youtube
+    nav
+        ul
+            li
+                a(href="/search") Search
+                if !login 
+                    li 
+                        a(href="/join") Join
+                    li 
+                        a(href="/login") Login
+                else 
+                    li
+                        a(href="/users/edit") Edit Profile
+                    li
+                        a(href="/videos/uploadvideo") Upload video
+                    li
+                        a(href=`/users/${user._id}`) #{user.name}'s profile
+                    li 
+                        a(href="/users/logout") Logout 
