@@ -1,21 +1,41 @@
 extends ../base.pug
 
-block content 
-    h1 #{title}
-    video(src="/"+video.videoUrl,controls)
-    div
-        p=video.description
-        small=video.createdAt
-        br
-        small Created by 
-            a(href=`/users/${video.owner._id}`) #{video.owner.name}
-    //- nav
-    //-     ul 
-    //-         li
-    //-             a(href=video.id+"/edit") Edit Video
-    //-         li 
-    //-             a(href=video.id+"/delete") Delete Video
-    if String(video.owner._id)===String(user._id)
-        a(href=video.id+"/edit") Edit Video
-        br
-        a(href=video.id+"/delete") Delete Video
+block content
+    div#videoContainer
+        video(src="/"+video.videoUrl)
+        div#videocontrols.videoControls
+            div.videoControls__play
+                span#play.videoControls__playBtn
+                    i.fas.fa-play
+                div.videoControls__time
+                    span#current 00:00
+                    span  / 
+                    span#total 00:00
+            input#time(type="range",min="0",step="0.1",value="0").videoControls__timeline
+            div.videoControls__volume
+                input#volume(type="range",max="1",min="0",step="0.1",value="0.5")
+                span#mute
+                    i.fas.fa-volume-up
+            div
+                span#fullscreen
+                    i.fas.fa-expand
+    //
+        div
+            p=video.description
+            small=video.createdAt
+            br
+            small Created by 
+                a(href=`/users/${video.owner._id}`) #{video.owner.name}
+        //- nav
+        //-     ul 
+        //-         li
+        //-             a(href=video.id+"/edit") Edit Video
+        //-         li 
+        //-             a(href=video.id+"/delete") Delete Video
+        if String(video.owner._id)===String(user._id)
+            a(href=video.id+"/edit") Edit Video
+            br
+            a(href=video.id+"/delete") Delete Video
+
+block script
+    script(src="/static/js/videoPlayer.js")

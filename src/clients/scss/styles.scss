@@ -1,5 +1,5 @@
 //Config
-@import "./config/variable";
+@import "./config/_variable.scss";
 @import "./config/reset.scss";
 //Components
 @import "./components/header.scss";
@@ -8,6 +8,7 @@
 @import "./components/shared.scss";
 @import "./components/forms.scss";
 @import "./components/social-login.scss";
+@import "./components/video-player.scss";
 
 //Screens
 @import "./screens/search.scss";
@@ -27,7 +28,7 @@ body {
 }
 
 main {
-    max-width: 1000px;
+    max-width: 1200px;
     width: 100%;
     margin: 0 auto;
     margin-top: 50px;
