@@ -8,6 +8,7 @@ import express from "express";
 import video from "./Router/videoRouter";
 import user from "./Router/userRouter";
 import route from "./Router/routeRouter";
+import api from "./Router/apiRouter";
 import session from "express-session";
 import morgan from "morgan";
 import MongoStore from "connect-mongo";
@@ -39,7 +40,7 @@ app.use("/static", express.static("assets"));
 app.use("/", route);
 app.use("/users", user);
 app.use("/videos", video);
-
+app.use("/api", api);
 export default app;
 
 // const handleListening = () => console.log("Server listening on port 4000");

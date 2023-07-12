@@ -112,6 +112,12 @@ const spacekeydown = (event) => {
         playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
     }
 }
+const videoEnded = (event) => {
+    const { id } = videoscreen.dataset;
+    fetch(`/api/videos/${id}/view`, {
+        method: "post",
+    })
+}
 playBtn.addEventListener("click", playBtnClick);
 muteBtn.addEventListener("click", muteBtnClick);
 muteBtn.addEventListener("click", muteBtnClick);
@@ -123,4 +129,5 @@ fullBtn.addEventListener("click", fullBtnClick);
 video.addEventListener("mousemove", mousemove);
 video.addEventListener("mouseleave", mouseleave);
 video.addEventListener("click", videoClick);
+video.addEventListener("ended", videoEnded)
 document.addEventListener("keydown", spacekeydown);
