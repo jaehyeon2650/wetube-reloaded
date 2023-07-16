@@ -23,6 +23,7 @@ export const getedit = async (req, res) => {
         return res.status(404).render("404", { title: "video not found" });
     }
     if (String(video.owner) !== String(_id)) {
+        req.flash("error", "Not authorized");
         return res.status(403).redirect("/");
     }
     res.render("videofile/edit", { title: `Edit: ${video.title}`, video: video });
@@ -38,6 +39,7 @@ export const postedit = async (req, res) => {
         return res.status(404).render("404", { title: "video not found" })
     }
     if (String(video.owner) !== String(_id)) {
+        req.falsh("error", "You are not the owner of the video.")
         return res.status(403).redirect("/");
     }
     const { title, description, hashtags } = req.body;
@@ -50,7 +52,8 @@ export const postedit = async (req, res) => {
     // video.description = description;
     // video.hashtags = hashtags.split(",").map(word => (word.startsWith("#") ? word : `#${word}`));
     // await video.save();
-    return res.redirect(`/video/${id}`);
+    req.flash("success", "Changes saved");
+    return res.redirect(`/videos/${id}`);
 }
 export const remove = async (req, res) => {
     const { id } = req.params;
@@ -79,20 +82,19 @@ export const search = async (req, res) => {
     }
     return res.render("videofile/search", { title: "Search", videos: videos });
 }
-export const upload = (req, res) => {
-    return res.send("upload video");
-}
 export const getupload = (req, res) => {
     return res.render("videofile/upload", { title: "upload" });
 }
 export const postupload = async (req, res) => {
     const { _id } = req.session.user;
-    const file = req.file;
+    const { video, thumb } = req.files;
+    // console.log(video, thumb);
     const { title, description, hashtags } = req.body;
     try {
         const newvideo = await Video.create({
             title: title,
-            videoUrl: file.path,
+            videoUrl: video[0].path,
+            thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
             description: description,
             hashtags: Video.modelHashtag(hashtags),
             owner: _id,

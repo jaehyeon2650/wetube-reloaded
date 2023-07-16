@@ -148,6 +148,7 @@ export const logout = (req, res) => {
 
 export const getPasswordChange = (req, res) => {
     if (req.session.user.githublogin === true) {
+        req.flash("error", "Can't change password");
         return res.redirect("/");
     }
     return res.render("userfile/change-password", { title: "Change Password" });
@@ -179,7 +180,8 @@ export const postPasswordChange = async (req, res) => {
         return res.status(400).render("userfile/change-password", { title: "Change Password", errorMessage: "Check New Password" })
     }
     user.password = newp;
-    user.save();
+    await user.save();
+    req.flash("info", "Password updated");
     return res.redirect("/users/logout");
 }
 
