@@ -1,8 +1,6 @@
 extends ../base.pug
 
 block content 
-    h1 #{title}
-block main 
     form(method="post")
         input(name="title",value=video.title,maxlength="80")
         input(name="description",type="text",required=true,minlength="20",value=video.description)
