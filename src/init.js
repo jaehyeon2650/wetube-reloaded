@@ -2,7 +2,8 @@ import "dotenv/config";
 import "./db";
 import "./models/video";
 import "./models/user";
+import "./models/comment"
 import app from "./server";
-
-const handleListening = () => console.log("Server listening on port 4000");
-app.listen(4000, handleListening);
+const PORT = process.env.PORT || 4000;
+const handleListening = () => console.log(`Server listening on port ${PORT}`);
+app.listen(PORT, handleListening);
