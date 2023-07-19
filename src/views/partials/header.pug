@@ -23,7 +23,7 @@ header
                             if user.avatar_url===""
                                 span 😊
                             else
-                                if user.githublogin
+                                if user.githublogin.includes("github")
                                     img.header_avatar(src=user.avatar_url)
                                 else
                                     img.header_avatar(src="/"+user.avatar_url)
