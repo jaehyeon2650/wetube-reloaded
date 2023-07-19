@@ -12,11 +12,6 @@ const s3imageUploader = multers3({
     s3: s3,
     bucket: "wetubejaehyeon/images",
     acl: "public-read",
-    key: function (request, file, ab_callback) {
-        const newFileName = Date.now() + "-" + file.originalname;
-        const fullPath = "images/" + newFileName;
-        ab_callback(null, fullPath);
-    },
 })
 const s3videoUploader = multers3({
     s3: s3,
