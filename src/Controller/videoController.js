@@ -3,6 +3,7 @@ import User from "../models/user";
 import Comment from "../models/comment";
 export const home = async (req, res) => {
     const videos = await Video.find({}).sort({ createdAt: "desc" }).populate("owner");
+    console.log(videos);
     return res.render("home", { title: "Home", videos });
 }
 export const see = async (req, res) => {
