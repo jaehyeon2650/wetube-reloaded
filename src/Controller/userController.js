@@ -26,7 +26,6 @@ export const getEdit = (req, res) => {
     return res.render("userfile/edit-profile", { title: "Edit Profile" });
 }
 export const postEdit = async (req, res) => {
-    console.log(req.file)
     const {
         session: {
             user: { _id, avatar_url },
@@ -46,8 +45,9 @@ export const postEdit = async (req, res) => {
             return res.render("userfile/edit-profile", { title: "Edit-Profile", errorMessage: "Username already exist" })
         }
     }
+    const isHeroku = process.env.NODE_ENV === "production";
     const newUser = await User.findByIdAndUpdate(_id, {
-        avatar_url: file ? file.path : avatar_url,
+        avatar_url: file ? (isHeroku ? file.location : file.path) : avatar_url,
         name,
         username,
         email,
