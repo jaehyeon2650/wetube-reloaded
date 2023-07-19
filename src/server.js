@@ -15,7 +15,6 @@ import morgan from "morgan";
 import MongoStore from "connect-mongo";
 import { localsMiddleware } from "./middleware";
 
-console.log(process.cwd());
 const app = express();
 const logger = morgan("dev");
 app.set("view engine", "pug");
