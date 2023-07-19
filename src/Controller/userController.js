@@ -13,14 +13,21 @@ export const postJoin = async (req, res) => {
     if (user) {
         return res.status(400).render("userfile/join", { title: "Join", errorMessage: "Already exist username or email" })
     }
-    await User.create({
-        email,
-        username,
-        password,
-        name,
-        location,
-    })
-    return res.redirect("/login");
+    try {
+        await User.create({
+            email,
+            username,
+            password,
+            name,
+            location,
+        })
+        return res.redirect("/login");
+    } catch (error) {
+        return res.status(400).render("join", {
+            title: "Upload Video",
+            errorMessage: error._message,
+        });
+    }
 }
 export const getEdit = (req, res) => {
     return res.render("userfile/edit-profile", { title: "Edit Profile" });
@@ -45,9 +52,9 @@ export const postEdit = async (req, res) => {
             return res.render("userfile/edit-profile", { title: "Edit-Profile", errorMessage: "Username already exist" })
         }
     }
-    // const isHeroku = process.env.NODE_ENV === "production";
+    const isHeroku = process.env.NODE_ENV === "production";
     const newUser = await User.findByIdAndUpdate(_id, {
-        avatar_url: file ? file.location : avatar_url,
+        avatar_url: file ? (isHeroku ? file.location : file.path) : avatar_url,
         name,
         username,
         email,
