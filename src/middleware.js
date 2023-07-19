@@ -13,12 +13,12 @@ const s3 = new S3Client({
 const isHeroku = process.env.NODE_ENV === "production";
 const s3imageUploader = multers3({
     s3: s3,
-    bucket: "wetubejaehyeon/images",
+    bucket: "wetubejaehyeon",
     acl: "public-read",
 })
 const s3videoUploader = multers3({
     s3: s3,
-    bucket: "wetubejaehyeon/videos",
+    bucket: "wetubejaehyeon",
     acl: "public-read",
 })
 export const localsMiddleware = (req, res, next) => {
