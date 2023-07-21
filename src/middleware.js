@@ -12,12 +12,17 @@ const s3 = new aws.S3({
 });
 
 // const isHeroku = process.env.NODE_ENV === "production";
-const s3imageUploader = multers3({
-    s3: s3,
-    bucket: "wetubejaehyeon",
-    acl: "public-read",
-})
-const s3videoUploader = multers3({
+// const s3imageUploader = multers3({
+//     s3: s3,
+//     bucket: "wetubejaehyeon",
+//     acl: "public-read",
+// })
+// const s3videoUploader = multers3({
+//     s3: s3,
+//     bucket: "wetubejaehyeon",
+//     acl: "public-read",
+// })
+const multeruploader = multers3({
     s3: s3,
     bucket: "wetubejaehyeon",
     acl: "public-read",
@@ -54,11 +59,11 @@ export const uploadAvatar = multer({
     limits: {
         fileSize: 300000000000,
     },
-    storage: s3imageUploader,
+    storage: multeruploader,
 })
 export const uploadVideo = multer({
     dest: "uploads/videos", limits: {
         fileSize: 10000000000000,
     },
-    storage: s3videoUploader,
+    storage: multeruploader,
 })
