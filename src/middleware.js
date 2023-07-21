@@ -3,19 +3,20 @@ import multers3 from "multer-s3";
 import { S3Client } from "@aws-sdk/client-s3";
 import aws from "aws-sdk";
 
-// const s3 = new aws.S3({
-//     credentials: {
-//         accessKeyId: process.env.AWS_ID,
-//         secretAccessKey: process.env.AWS_SECRET,
-//     },
-// });
-const s3 = new S3Client({
+const s3 = new aws.S3({
     region: "us-east-2",
     credentials: {
         accessKeyId: process.env.AWS_ID,
         secretAccessKey: process.env.AWS_SECRET,
     },
 });
+// const s3 = new S3Client({
+//     region: "us-east-2",
+//     credentials: {
+//         accessKeyId: process.env.AWS_ID,
+//         secretAccessKey: process.env.AWS_SECRET,
+//     },
+// });
 
 // const isHeroku = process.env.NODE_ENV === "production";
 // const s3imageUploader = multers3({
