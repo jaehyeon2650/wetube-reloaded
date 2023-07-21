@@ -122,7 +122,7 @@ playBtn.addEventListener("click", playBtnClick);
 muteBtn.addEventListener("click", muteBtnClick);
 muteBtn.addEventListener("click", muteBtnClick);
 volumeRange.addEventListener("input", volumeRangeInput);
-video.addEventListener("loadedmetadata", loadMetaData);
+video.addEventListener("canplay", loadMetaData);
 video.addEventListener("timeupdate", videoTimeUpdate);
 time.addEventListener("input", timeInput);
 fullBtn.addEventListener("click", fullBtnClick);
@@ -131,3 +131,4 @@ video.addEventListener("mouseleave", mouseleave);
 video.addEventListener("click", videoClick);
 video.addEventListener("ended", videoEnded)
 document.addEventListener("keydown", spacekeydown);
+loadMetaData();
