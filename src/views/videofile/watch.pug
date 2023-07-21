@@ -2,7 +2,7 @@ extends ../base.pug
 
 block content
     div#videoContainer(data-id=video._id)
-        video(src="/"+video.videoUrl,crossorigin)
+        video(src=video.videoUrl,crossorigin)
         div#videocontrols.videoControls
             div.videoControls__play
                 span#play.videoControls__playBtn
